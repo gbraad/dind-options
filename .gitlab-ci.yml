@@ -1,0 +1,14 @@
+image: docker:git
+services:
+  - docker:dind
+
+before_script:
+  - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
+
+build:
+  script:
+    - docker build -t registry.gitlab.com/gbraad/dind-options:latest . 
+    - docker push registry.gitlab.com/gbraad/dind-options
+  only:
+    - master
+  when: manual
